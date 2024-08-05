@@ -44,7 +44,7 @@ link.addEventListener("click", e => {
 
 
 
-import {auth , createUserWithEmailAndPassword} from "./firebase.js"
+import {auth , createUserWithEmailAndPassword ,  GoogleAuthProvider, signInWithPopup , provider} from "./firebase.js"
 
 
 
@@ -79,4 +79,38 @@ function signUpFunction(){
 let signupbtn = document.getElementById('signupbtn')
 console.log(signupbtn);
 
-signupbtn.addEventListener('click' , signUpFunction)
+signupbtn.addEventListener('click' , signUpFunction);
+
+let googleAuthenticationFunction = () => {
+  signInWithPopup(auth, provider)
+  .then((result) => {
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    const user = result.user;
+    console.log(credential);
+    console.log(user);
+    Swal.fire({
+      title: "Good job!",
+      text: "You have sucessfully created account",
+      icon: "success"
+    });
+    
+  }).catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    const email = error.customData.email;
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    console.log(errorCode);
+    console.log(errorMessage);
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: errorCode,
+    });
+  });
+}
+
+
+const signupGoogle = document.getElementById('signup-google')
+
+signupGoogle.addEventListener('click' , googleAuthenticationFunction)
