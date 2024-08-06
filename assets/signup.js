@@ -44,7 +44,7 @@ link.addEventListener("click", e => {
 
 
 
-import {auth , createUserWithEmailAndPassword ,  GoogleAuthProvider, signInWithPopup , provider} from "./firebase.js"
+import {auth , createUserWithEmailAndPassword ,  GoogleAuthProvider, signInWithPopup , provider , onAuthStateChanged } from "./firebase.js"
 
 
 
@@ -109,8 +109,66 @@ let googleAuthenticationFunction = () => {
     });
   });
 }
+let googleLoginFunction = () => {
+  signInWithPopup(auth, provider)
+  .then((result) => {
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    const user = result.user;
+    console.log(credential);
+    console.log(user);
+    Swal.fire({
+      title: "Good job!",
+      text: "You have sucessfully LogIn",
+      icon: "success"
+    });
+    window.location.href = 'assets/dashboard.html'
+  }).catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    const email = error.customData.email;
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    console.log(errorCode);
+    console.log(errorMessage);
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: errorCode,
+    });
+  });
+}
 
 
 const signupGoogle = document.getElementById('signup-google')
 
 signupGoogle.addEventListener('click' , googleAuthenticationFunction)
+
+const loginGoogle = document.getElementById('login-google')
+loginGoogle.addEventListener('click' , googleLoginFunction)
+
+
+const loginEmail = document.getElementById('login-email'),
+loginPassword = document.getElementById('login-password'),
+loginBtn = document.getElementById('loginBtn')
+
+
+let loginAuthenticate = () => {
+  signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    window.location.href = 'assets/dashboard.html'
+    console.log(user);
+    
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log(errorCode);
+    console.log(errorMessage);
+    
+  });
+}
+
+loginBtn.addEventListener('click' , () => {})
