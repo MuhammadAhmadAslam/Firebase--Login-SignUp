@@ -48,9 +48,11 @@ main{
     margin-top: 100px;
 }
 .container{
-    min-width: 1000px;
+    /* min-width: 1000px; */
     background-color: #4070f4 !important;
-    height: 50vh;
+    /* min-height: 50vh; */
+    padding-bottom: 80px !important;
+    padding-top: 40px;
 }
 .input-btn{
     width: 100%;
@@ -89,13 +91,43 @@ main{
     align-items: flex-start;
     flex-direction: column;
     flex-wrap: wrap;
-    padding-left: 80px;
-    margin-top: 30px;
+    margin-top: 30px !important;
+    width: 100%;
+    position: relative;
+
 }
 #list{
     color: white;
     font-size: 25px;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    width: 90%;
 }
 li{
     padding-top: 10px;
+    margin-top: 20px;
+    /* border: 1px solid white;  */
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+
+#makingli:hover{
+    .icons{
+        display: inline;
+    }
+}
+.icons1{
+    position: absolute;
+    right: 0px;
+    display: none;
+
+}
+.icons2{
+    position: absolute;
+    right: 70px;
+    display: none;
+
 }

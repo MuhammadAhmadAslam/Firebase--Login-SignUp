@@ -6,13 +6,16 @@
   signInWithPopup ,
    onAuthStateChanged , 
    signInWithEmailAndPassword ,
-   signOut
+   signOut ,
+
   } 
    from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 
 
-   import {getFirestore , collection , addDoc , getDocs  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
+   import {getFirestore , collection , addDoc , getDocs, query,
+    where,
+     onSnapshot ,    deleteDoc  , updateDoc, deleteField , doc   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
  const firebaseConfig = {
    apiKey: "AIzaSyAcEusuBViHZG_gqw8BqABccSmVDXUvH70",
    authDomain: "muhammad-ahmed-demo-work.firebaseapp.com",
@@ -41,6 +44,13 @@ export {
   getFirestore, 
   collection , 
   addDoc ,
-  getDocs 
+  getDocs ,
+   query,
+    where,
+     onSnapshot,
+     deleteDoc , 
+     updateDoc, 
+     deleteField,
+     doc
 }
  
