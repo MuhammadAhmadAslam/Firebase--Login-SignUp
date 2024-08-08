@@ -24,6 +24,21 @@ onAuthStateChanged(auth, (user) => {
     }
   });
 
+let showLoader = () => {
+  
+  let spinner = document.querySelector('.spinner')
+  console.log(spinner);
+  spinner.classList.add('s')
+  spinner.classList.remove('s-none')
+}
+
+
+let hideLoader = () => {
+  let spinner = document.querySelector('.spinner')
+  spinner.classList.add('s-none')
+  spinner.classList.remove('s')
+}
+
 
 
 
@@ -74,11 +89,12 @@ todoBtn.addEventListener('click' , makinglist)
 
 
 let getToDo = () => {
+  showLoader()
   onSnapshot(collection(db, "todo"), (snapshot) => {
     list.innerHTML = '';
     snapshot.forEach((doc) => {
       let { todo } = doc.data();
-      list.innerHTML += `<li id='makingli' data-id='${doc.id}'> ${todo} <i class="fa-solid fa-pen-to-square icons1 edit-icon"></i> <i class="fa-solid fa-trash icons2 bin-icon"></i></li>`;
+      list.innerHTML += `<li id='makingli' class='li' data-id='${doc.id}'> ${todo} <i class="fa-solid fa-pen-to-square icons1 edit-icon"></i> <i class="fa-solid fa-trash icons2 bin-icon"></i></li>`;
     });
 
     const binIcons = document.querySelectorAll('.bin-icon');
@@ -101,6 +117,7 @@ let getToDo = () => {
     });
   });
 
+  hideLoader()
 });
 }
 // Call the function to fetch and display todos
@@ -111,23 +128,27 @@ function editFunction(event) {
   const li = event.target.closest('li');
   const docId = li.getAttribute('data-id');
   const inp = document.createElement('input')
+  li.classList.remove('li')
   inp.value = li.innerText
   li.innerText = ''
   const btn = document.createElement('button')
   btn.innerText = 'ADD TODO'
+  inp.classList.add('inp')
+  btn.classList.add('btn')
   li.appendChild(inp)
   li.appendChild(btn)
-  todoBtn.addEventListener('click' , () => {
-       if (todoInput.value) {
-          try {
-             updateDoc(doc(db, "todo", docId), {
-              todo: todoInput.value
-            })
-            li.innerText = todoInput.value
-          } catch (error) {
-            console.log(error);
-            
-          }
+  btn.addEventListener('click' , () => {
+    if (inp.value) {
+       try {
+          updateDoc(doc(db, "todo", docId), {
+           todo: inp.value
+         })
+         li.innerText = todoInput.value
+       } catch (error) {
+         console.log(error);
+         
        }
-})
+    }
+    
+  })
 }
